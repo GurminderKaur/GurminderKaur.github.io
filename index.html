@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gurminder Kaur — private AI apps that run on your own computer</title>
+<meta name="description" content="Four local-first apps built with open-weight AI models in C#/.NET: TrailBirder, Shoebox, Sloth Sort and Marigold.">
+<meta property="og:title" content="Gurminder Kaur — private AI apps that run on your own computer">
+<meta property="og:description" content="Four local-first apps built with open-weight AI models in C#/.NET.">
+<meta property="og:image" content="https://gurminderkaur.github.io/img/marigold.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%BC%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #faf7f1; --card: #ffffff; --ink: #1f1d1a; --muted: #6b655c; --line: #e8e1d4;
+    --accent: #b45309; --accent-soft: #fdf1df; --green: #3f6b35; --green-soft: #e6efdf; --code: #1d2330; --code-ink: #d9e3f0;
+    --r: 16px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #16151a; --card: #1f1e24; --ink: #f2eee6; --muted: #aaa397; --line: #34313b;
+      --accent: #f2a541; --accent-soft: #3a2a14; --green: #a7d49a; --green-soft: #22301f; --code: #0f1218; }
+  }
+  :root[data-theme="dark"] { --bg: #16151a; --card: #1f1e24; --ink: #f2eee6; --muted: #aaa397; --line: #34313b;
+      --accent: #f2a541; --accent-soft: #3a2a14; --green: #a7d49a; --green-soft: #22301f; --code: #0f1218; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  a { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  header.hero { padding: 64px 0 36px; }
+  .eyebrow { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  h1 { font: 600 clamp(32px, 6vw, 52px)/1.1 Georgia, "Iowan Old Style", "Palatino Linotype", serif; margin: 0 0 16px; text-wrap: balance; }
+  .lede { font-size: clamp(17px, 2.4vw, 20px); color: var(--muted); max-width: 680px; margin: 0 0 22px; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 15px; }
+  .btn:hover { border-color: var(--accent); }
+  .principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 8px 0 44px; }
+  .principles div { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 16px 18px; }
+  .principles strong { display: block; margin-bottom: 4px; }
+  .principles p { margin: 0; color: var(--muted); font-size: 15px; }
+  h2.section { font: 600 26px/1.2 Georgia, "Palatino Linotype", serif; margin: 0 0 6px; }
+  .section-sub { color: var(--muted); margin: 0 0 22px; }
+  .projects { display: grid; gap: 22px; margin-bottom: 56px; }
+  .project { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); background: var(--card); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+  .project:nth-child(even) .shot { order: 2; }
+  .shot { background: var(--code); min-height: 240px; display: flex; }
+  .shot img { width: 100%; height: 100%; object-fit: cover; object-position: left top; display: block; }
+  .project code { font: 13.5px/1.5 ui-monospace, Consolas, monospace; background: var(--accent-soft); padding: 1px 5px; border-radius: 5px; word-break: break-word; }
+  .term { margin: 0; padding: 22px; color: var(--code-ink); font: 13.5px/1.7 ui-monospace, "Cascadia Code", Consolas, monospace; align-self: center; overflow-x: auto; width: 100%; }
+  .term .dim { color: #8b98ab; } .term .new { color: #f2c46d; }
+  .body { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 10px; }
+  .week { font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+  .project h3 { margin: 0; font: 600 25px/1.2 Georgia, "Palatino Linotype", serif; }
+  .project p { margin: 0; }
+  .project ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 15px; }
+  .project li { margin: 3px 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 12.5px; padding: 2px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--ink); }
+  .chip.g { background: var(--green-soft); color: var(--green); font-weight: 600; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 6px; }
+  .actions .btn { font-size: 14px; padding: 7px 14px; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.primary { color: #1f1d1a; } }
+  .stack { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 22px; margin-bottom: 56px; }
+  .stack p { margin: 0 0 8px; color: var(--muted); }
+  .stack p:last-child { margin: 0; }
+  footer { border-top: 1px solid var(--line); padding: 22px 0 40px; color: var(--muted); font-size: 14px; }
+  @media (max-width: 760px) {
+    header.hero { padding-top: 40px; }
+    .principles { grid-template-columns: minmax(0, 1fr); }
+    .project { grid-template-columns: minmax(0, 1fr); }
+    .project:nth-child(even) .shot { order: 0; }
+    .shot { min-height: 0; aspect-ratio: 16 / 10; }
+    .term { font-size: 12px; padding: 16px; }
+    .body { padding: 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">Gurminder Kaur · C# / .NET · Alberta, Canada</p>
+    <h1>Private AI apps that run on your own computer.</h1>
+    <p class="lede">I build small, useful tools around open-weight models: no cloud, no account, no subscription. Your receipts, files and family photos never leave your machine. These four were built in October 2026 for the Hacktoberfest Open-Source AI Challenge on DEV.</p>
+    <div class="links">
+      <a class="btn" href="https://github.com/GurminderKaur">GitHub</a>
+      <a class="btn" href="https://dev.to/gabby_gill_23c85a86800564">DEV posts</a>
+    </div>
+  </header>
+
+  <section class="principles" aria-label="How I build">
+    <div><strong>Local by default</strong><p>Models run through Ollama or ONNX Runtime on your device. Each app's server answers on 127.0.0.1 only.</p></div>
+    <div><strong>Check the model's work</strong><p>Plain code checks the AI: arithmetic on receipts, a plan before any file moves, a "ghost check" for invented facts.</p></div>
+    <div><strong>Tested with the real model</strong><p>Every push runs self-tests on Windows, macOS and Linux, then the real open model on sample data in CI.</p></div>
+  </section>
+
+  <h2 class="section">Projects</h2>
+  <p class="section-sub">Four weeks, four themes, one rule: the open pieces are what make it work.</p>
+
+  <div class="projects">
+    <article class="project">
+      <div class="shot"><img src="img/marigold.jpg" alt="An ofrenda page built by Marigold: papel picado, four old photos, a remembrance and a row of candles" loading="lazy" width="1200" height="743"></div>
+      <div class="body">
+        <span class="week">Week 4 · Ghost in the Machine</span>
+        <h3>🌼 Marigold</h3>
+        <p>A private ofrenda for the people you remember. Gemma 3 describes old photos and writes a short remembrance using only what the family wrote.</p>
+        <ul>
+          <li>A <strong>ghost check</strong> flags any name, place, year or date the model invented</li>
+          <li>The ofrenda is one self-contained HTML file: works offline, prints to PDF</li>
+          <li>Real-model CI run: 4/4 photos described, 0 invented details</li>
+        </ul>
+        <div class="chips"><span class="chip g">Gemma 3 (vision)</span><span class="chip">Ollama</span><span class="chip">ASP.NET Core</span><span class="chip">Playwright</span></div>
+        <div class="actions">
+          <a class="btn primary" href="https://dev.to/gabby_gill_23c85a86800564/marigold-a-private-ofrenda-that-catches-the-ghosts-ai-writes-into-our-memories-948">Read the post</a>
+          <a class="btn" href="https://github.com/GurminderKaur/Marigold">Code</a>
+          <a class="btn" href="https://github.com/GurminderKaur/Marigold/releases">Download</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="shot"><img src="img/slothsort.jpg" alt="Sloth Sort showing a plan: each messy file with its new folder and readable name" loading="lazy" width="1200" height="744"></div>
+      <div class="body">
+        <span class="week">Week 3 · Slow and Steady</span>
+        <h3>🦥 Sloth Sort</h3>
+        <p>A local AI tidies your messy Downloads folder in two clicks. <code>document(7).pdf</code> becomes <code>Bills &amp; Receipts/2026-10-14 Chinook Mobile Bill.pdf</code>.</p>
+        <ul>
+          <li>Reads PDFs and Office files with no third-party libraries</li>
+          <li>Shows the plan first; never deletes or overwrites; one-click undo</li>
+          <li>Real-model CI run: 15/15 right folders, 10/10 sensible names</li>
+        </ul>
+        <div class="chips"><span class="chip g">Gemma 3</span><span class="chip">Ollama</span><span class="chip">ASP.NET Core</span><span class="chip">Structured outputs</span></div>
+        <div class="actions">
+          <a class="btn primary" href="https://dev.to/gabby_gill_23c85a86800564/sloth-sort-a-local-gemma-3-tidies-my-downloads-folder-while-i-do-nothing-980">Read the post</a>
+          <a class="btn" href="https://github.com/GurminderKaur/SlothSort">Code</a>
+          <a class="btn" href="https://github.com/GurminderKaur/SlothSort/releases">Download</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="shot"><img src="img/shoebox.jpg" alt="Shoebox listing receipts sorted onto CRA T2125 lines with GST worked out" loading="lazy" width="1200" height="744"></div>
+      <div class="body">
+        <span class="week">Week 2 · Side Hustle</span>
+        <h3>🧾 Shoebox</h3>
+        <p>A private receipt and GST sorter for Alberta freelancers. Gemma 3 reads receipt photos; C# arithmetic checks every number.</p>
+        <ul>
+          <li>Sorts expenses onto CRA T2125 lines, with GST and input tax credits</li>
+          <li>Flags receipts where subtotal + tax + tip ≠ total</li>
+          <li>Exports a CSV for your accountant</li>
+        </ul>
+        <div class="chips"><span class="chip g">Gemma 3 (vision)</span><span class="chip">Ollama</span><span class="chip">ASP.NET Core</span></div>
+        <div class="actions">
+          <a class="btn primary" href="SHOEBOX_POST_URL">Read the post</a>
+          <a class="btn" href="https://github.com/GurminderKaur/ShoeBox">Code</a>
+          <a class="btn" href="https://github.com/GurminderKaur/ShoeBox/releases">Download</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="shot" role="img" aria-label="TrailBirder listening on the trail and naming birds in a terminal">
+<pre class="term"><span class="dim">▸ Listening · Inglewood Bird Sanctuary · Oct 10</span>
+  11:18:17  Black-capped Chickadee  0.81  <span class="new">★ new today</span>
+  11:18:26  House Finch             0.64  <span class="new">★ new today</span>
+  11:18:58  Dark-eyed Junco         0.74  <span class="new">★ new today</span>
+
+<span class="dim">Journal written by a local LLM · no signal needed</span></pre>
+      </div>
+      <div class="body">
+        <span class="week">Week 1 · Touch Grass</span>
+        <h3>🐦 TrailBirder</h3>
+        <p>Offline bird-song ID and a field journal for Alberta trails. Leave the phone in your pocket; get a species list when you're home.</p>
+        <ul>
+          <li>BirdNET converted to ONNX and run on the CPU, with a range filter for where and when you are</li>
+          <li>Keeps the best 3-second clip of each bird so you can check an ID by ear</li>
+          <li>A local open-weight LLM writes the journal entry</li>
+        </ul>
+        <div class="chips"><span class="chip g">BirdNET</span><span class="chip">ONNX Runtime</span><span class="chip">Ollama</span><span class="chip">.NET 8</span></div>
+        <div class="actions">
+          <a class="btn primary" href="TRAILBIRDER_POST_URL">Read the post</a>
+          <a class="btn" href="https://github.com/GurminderKaur/TrailBirder">Code</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <section class="stack" aria-label="Toolbox">
+    <h2 class="section" style="font-size:22px">Toolbox</h2>
+    <p><strong>Languages and frameworks:</strong> C#, .NET 8, ASP.NET Core minimal APIs, plain HTML/CSS/JavaScript (no frameworks needed).</p>
+    <p><strong>Open AI:</strong> Gemma 3 (text and vision), BirdNET, Ollama, ONNX Runtime, structured outputs with JSON schemas.</p>
+    <p><strong>Quality:</strong> built-in self-tests, GitHub Actions on Windows/macOS/Linux, real-model test runs, Playwright browser tests, single-file releases.</p>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">Hosted free on GitHub Pages. No trackers, no cookies. · <a href="https://github.com/GurminderKaur">github.com/GurminderKaur</a></div>
+</footer>
+</body>
+</html>
